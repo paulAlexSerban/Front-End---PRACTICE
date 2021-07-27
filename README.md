@@ -3,7 +3,6 @@
 ## PoC Repos
 * [Nature Tours Agency - Landing Page](https://github.com/paulAlexSerban/PWC-Nature-Tours)
 * [Film Festival - Landing Page](https://github.com/paulAlexSerban/CSS-Bootstrap-Boston-Film-Festival)
-* [Art Gallery Portfolio](https://github.com/paulAlexSerban/PWC-Art-Brief-Bag)
 
 ## Diploma / Certification Repos
 
