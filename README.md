@@ -4,6 +4,9 @@
 * [Nature Tours Agency - Landing Page](https://github.com/paulAlexSerban/PWC-Nature-Tours)
 * [Film Festival - Landing Page](https://github.com/paulAlexSerban/CSS-Bootstrap-Boston-Film-Festival)
 
+## Concepts
+* [Layout and Grid Types](https://github.com/paulAlexSerban/Layout-and-Grid-types)
+
 ## Diploma / Certification Repos
 
 * [OpenClassrooms - Front End Developer Diploma Projects](https://github.com/paulAlexSerban/OpenClassrooms-FrontEnd-Developer-Diploma-Projects)
