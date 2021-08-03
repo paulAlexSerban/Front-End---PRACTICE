@@ -1,7 +1,7 @@
 # Front End Development Projects
 
 ## PoC Repos
-* [Outdoorsy Tours Agency - Landing Page](https://github.com/paulAlexSerban/Outdoorsy-Tours-Agency---Landing-Page)
+* [Natours Tours Agency - Landing Page](https://github.com/paulAlexSerban/Natours-Tours-Agency---Landing-Page)
 * [Film Festival - Landing Page](https://github.com/paulAlexSerban/CSS-Bootstrap-Boston-Film-Festival)
 
 ## Concepts
