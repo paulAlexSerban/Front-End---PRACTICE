@@ -7,7 +7,7 @@
 
 ## Concepts
 * [Layout and Grid Types](https://github.com/paulAlexSerban/Layout-and-Grid-types)
-* [Scss / Sass Workbook]()
+* [Scss / Sass Workbook](https://github.com/paulAlexSerban/Scss-Sass-Workbook)
 
 ## Diploma / Certification Repos
 
