@@ -3,7 +3,7 @@
 ## PoC Repos
 * [Nexter - Luxury Real Estate (Landing Page)](https://github.com/paulAlexSerban/Nexter---Luxury-Real-Estate-Landing-Page-)
 * [Trillo - All in One (Booking App)](https://github.com/paulAlexSerban/Trillo---All-in-One-Booking-App)
-* [Natours Tours Agency (Landing Page(](https://github.com/paulAlexSerban/Natours-Tours-Agency---Landing-Page)
+* [Natours Tours Agency (Landing Page)](https://github.com/paulAlexSerban/Natours-Tours-Agency---Landing-Page)
 * [Film Festival (Landing Page)](https://github.com/paulAlexSerban/CSS-Bootstrap-Boston-Film-Festival)
 
 ## Concepts
