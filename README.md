@@ -11,7 +11,7 @@
 * [Scss / Sass Workbook](https://github.com/paulAlexSerban/Scss-Sass-Workbook)
 
 ## Practice Repos
-* [Pricing Panel]()
+* [Pricing Panel](https://github.com/paulAlexSerban/Pricing-Panel)
 
 ## Diploma / Certification Repos
 * [OpenClassrooms - Front End Developer Diploma Projects](https://github.com/paulAlexSerban/OpenClassrooms-FrontEnd-Developer-Diploma-Projects)
