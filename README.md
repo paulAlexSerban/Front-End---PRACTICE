@@ -12,6 +12,7 @@
 
 ## Practice Repos
 * [Pricing Panel](https://github.com/paulAlexSerban/Pricing-Panel)
+* [Math Tutorials Website](https://github.com/paulAlexSerban/Math-Tutorials-Website)
 
 ## Diploma / Certification Repos
 * [OpenClassrooms - Front End Developer Diploma Projects](https://github.com/paulAlexSerban/OpenClassrooms-FrontEnd-Developer-Diploma-Projects)
