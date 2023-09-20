@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'test scripts not defined'"
+    "test": "echo 'test scripts not defined'",
+    "preversion": "git config --global push.followTags false",
+    "postversion": "git tag -d v$(jq -r .version package.json) && git tag ui-app-boilerplate-$(jq -r .version package.json) && git push origin ui-app-boilerplate-$(jq -r .version package.json)"
   },
   "keywords": [],
   "author": "Paul Serban",
