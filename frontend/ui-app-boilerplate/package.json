@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo 'test scripts not defined'",
     "preversion": "git config --global push.followTags false",
-    "postversion": "git tag -d v$(jq -r .version package.json) && git tag ui-app-boilerplate-$(jq -r .version package.json) && git push origin ui-app-boilerplate-$(jq -r .version package.json)"
+    "postversion": "git tag -d v$(node -p -e \"require('./package.json').version\") && git tag ui-app-boilerplate-$(node -p -e \"require('./package.json').version\") && git push origin ui-app-boilerplate-$(node -p -e \"require('./package.json').version\")"
   },
   "keywords": [],
   "author": "Paul Serban",
