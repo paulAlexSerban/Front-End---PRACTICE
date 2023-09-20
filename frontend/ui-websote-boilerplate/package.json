@@ -1,0 +1,15 @@
+{
+  "name": "ui-websote-boilerplate",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'test scripts not defined'"
+  },
+  "keywords": [],
+  "author": "Paul Serban",
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^5.88.2"
+  }
+}
