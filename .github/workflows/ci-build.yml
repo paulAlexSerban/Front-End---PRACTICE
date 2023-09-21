@@ -22,8 +22,24 @@ jobs:
             # Common Steps
             - name: '📥 checkout repository'
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: '🔍  Verify changed ${{ matrix.project }}'
+              uses: tj-actions/changed-files@v23.1
+              id: changed-${{ matrix.project }}
+              with:
+                  files: |
+                      **/${{ matrix.project }}/*
+
+            - name: List all changed files
+              run: |
+                  for file in ${{ steps['changed-' + matrix.project].outputs.all_changed_files }}; do
+                    echo "$file was changed"
+                  done
 
             - name: '🔄 Cache node_modules'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               uses: actions/cache@v2
               with:
                   path: ~/.npm
@@ -32,15 +48,18 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: '🔧 Setup NodeJS'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ env.NODE_VERSION }}
 
             - name: '📦 Install dependencies'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               run: npm install
 
-            # Linting Step
+            # Lint Step
             - name: 'Lint ${{ matrix.project }}'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               run: npm run lint --workspace ${{ matrix.project }}
 
     test:
@@ -56,8 +75,24 @@ jobs:
             # Common Steps
             - name: '📥 checkout repository'
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: '🔍  Verify changed ${{ matrix.project }}'
+              uses: tj-actions/changed-files@v23.1
+              id: changed-${{ matrix.project }}
+              with:
+                  files: |
+                      **/${{ matrix.project }}/*
+
+            - name: List all changed files
+              run: |
+                  for file in ${{ steps['changed-' + matrix.project].outputs.all_changed_files }}; do
+                    echo "$file was changed"
+                  done
 
             - name: '🔄 Cache node_modules'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               uses: actions/cache@v2
               with:
                   path: ~/.npm
@@ -66,15 +101,18 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: '🔧 Setup NodeJS'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ env.NODE_VERSION }}
 
             - name: '📦 Install dependencies'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               run: npm install
 
             # Test Step
             - name: 'Lint ${{ matrix.project }}'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               run: npm run test --workspace ${{ matrix.project }}
 
     build:
@@ -90,8 +128,24 @@ jobs:
             # Common Steps
             - name: '📥 checkout repository'
               uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: '🔍  Verify changed ${{ matrix.project }}'
+              uses: tj-actions/changed-files@v23.1
+              id: changed-${{ matrix.project }}
+              with:
+                  files: |
+                      **/${{ matrix.project }}/*
+
+            - name: List all changed files
+              run: |
+                  for file in ${{ steps['changed-' + matrix.project].outputs.all_changed_files }}; do
+                    echo "$file was changed"
+                  done
 
             - name: '🔄 Cache node_modules'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               uses: actions/cache@v2
               with:
                   path: ~/.npm
@@ -100,13 +154,16 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: '🔧 Setup NodeJS'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ env.NODE_VERSION }}
 
             - name: '📦 Install dependencies'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               run: npm install
 
             # Build Step
             - name: 'Build ${{ matrix.project }}'
+              if: steps['changed-' + matrix.project].outputs.all_changed_files == true
               run: npm run build --workspace ${{ matrix.project }}
