@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo 'test scripts not defined'",
-    "preversion": "git config --global push.followTags false",
-    "postversion": "git tag -d v$(node -p -e \"require('./package.json').version\") && git tag ui-app-boilerplate-$(node -p -e \"require('./package.json').version\") && git push origin ui-app-boilerplate-$(node -p -e \"require('./package.json').version\")"
+    "preversion": "bash scripts/preversion.bash",
+    "postversion": "bash scripts/postversion.bash"
   },
   "keywords": [],
   "author": "Paul Serban",
