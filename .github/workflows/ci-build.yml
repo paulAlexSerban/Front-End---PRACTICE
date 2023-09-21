@@ -25,25 +25,21 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Set project output
-              id: project-output
-              run: echo "::set-output name=project::${{ matrix.project }}"
-
             - name: '🔍 Verify changed files for the project'
               uses: tj-actions/changed-files@v23.1
               id: changed-files # Using a fixed ID
               with:
                   files: |
-                      **/${{ steps.project-output.outputs.project }}/*
+                      **/${{ matrix.project }}/*
 
             - name: List all changed files
               run: |
                   for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
                       echo "$file was changed"
-                  done
+                  doneƒ
 
             - name: '🔄 Cache node_modules'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               uses: actions/cache@v2
               with:
                   path: ~/.npm
@@ -52,18 +48,18 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: '🔧 Setup NodeJS'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ env.NODE_VERSION }}
 
             - name: '📦 Install dependencies'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               run: npm install
 
             # Lint Step
             - name: 'Lint ${{ matrix.project }}'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               run: npm run lint --workspace ${{ matrix.project }}
 
     test:
@@ -82,25 +78,21 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Set project output
-              id: project-output
-              run: echo "::set-output name=project::${{ matrix.project }}"
-
             - name: '🔍 Verify changed files for the project'
               uses: tj-actions/changed-files@v23.1
               id: changed-files # Using a fixed ID
               with:
                   files: |
-                      **/${{ steps.project-output.outputs.project }}/*
+                      **/${{ matrix.project }}/*
 
             - name: List all changed files
               run: |
                   for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
                       echo "$file was changed"
-                  done
+                  doneƒ
 
             - name: '🔄 Cache node_modules'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               uses: actions/cache@v2
               with:
                   path: ~/.npm
@@ -109,18 +101,18 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: '🔧 Setup NodeJS'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ env.NODE_VERSION }}
 
             - name: '📦 Install dependencies'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               run: npm install
 
             # Test Step
             - name: 'Lint ${{ matrix.project }}'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               run: npm run test --workspace ${{ matrix.project }}
 
     build:
@@ -139,16 +131,12 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Set project output
-              id: project-output
-              run: echo "::set-output name=project::${{ matrix.project }}"
-
             - name: '🔍 Verify changed files for the project'
               uses: tj-actions/changed-files@v23.1
               id: changed-files # Using a fixed ID
               with:
                   files: |
-                      **/${{ steps.project-output.outputs.project }}/*
+                      **/${{ matrix.project }}/*
 
             - name: List all changed files
               run: |
@@ -157,7 +145,7 @@ jobs:
                   done
 
             - name: '🔄 Cache node_modules'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               uses: actions/cache@v2
               with:
                   path: ~/.npm
@@ -166,16 +154,16 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: '🔧 Setup NodeJS'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ env.NODE_VERSION }}
 
             - name: '📦 Install dependencies'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               run: npm install
 
             # Build Step
             - name: 'Build ${{ matrix.project }}'
-              if: steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files == true
+              if: steps.changed-files.outputs.any_changed == true
               run: npm run build --workspace ${{ matrix.project }}
