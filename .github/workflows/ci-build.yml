@@ -73,12 +73,12 @@ jobs:
             - name: '📦 Install dependencies'
               run: npm install
 
-            # Linting Step
+            # Test Step
             - name: 'Lint ${{ matrix.project }}'
               run: npm run test --workspace ${{ matrix.project }}
 
     build:
-        name: Build - ${{ matrix.project }}
+        name: CI - Build - ${{ matrix.project }}
         needs: [lint, test]
         runs-on: ubuntu-latest
         environment:
