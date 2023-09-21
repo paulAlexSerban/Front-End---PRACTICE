@@ -1,0 +1,169 @@
+name: Continuous Integration
+
+on:
+    push:
+        branches: ['develop', 'release', 'main']
+    workflow_dispatch:
+
+env:
+    NODE_VERSION: 18.17.1
+    SITE_URL: https://paulalexserban.github.io/prj--fe-ci-build-system
+
+jobs:
+    lint:
+        name: CI - Lint - ${{ matrix.project }}
+        runs-on: ubuntu-latest
+        environment:
+            name: 'Build'
+        strategy:
+            matrix:
+                project: ['ui-website-boilerplate', 'ui-app-boilerplate']
+        steps:
+            # Common Steps
+            - name: '📥 checkout repository'
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: '🔍 Verify changed files for the project'
+              uses: tj-actions/changed-files@v23.1
+              id: changed-files # Using a fixed ID
+              with:
+                  files: |
+                      **/${{ matrix.project }}/*
+
+            - name: List all changed files
+              run: |
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                      echo "$file was changed"
+                  done
+
+            - name: '🔄 Cache node_modules'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: '🔧 Setup NodeJS'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: '📦 Install dependencies'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: npm install
+
+            # Lint Step
+            - name: 'Lint ${{ matrix.project }}'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: npm run lint --workspace ${{ matrix.project }}
+
+    test:
+        name: CI - Test - ${{ matrix.project }}
+        runs-on: ubuntu-latest
+        needs: [lint]
+        environment:
+            name: 'Build'
+        strategy:
+            matrix:
+                project: ['ui-website-boilerplate', 'ui-app-boilerplate']
+        steps:
+            # Common Steps
+            - name: '📥 checkout repository'
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: '🔍 Verify changed files for the project'
+              uses: tj-actions/changed-files@v23.1
+              id: changed-files # Using a fixed ID
+              with:
+                  files: |
+                      **/${{ matrix.project }}/*
+
+            - name: List all changed files
+              run: |
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                      echo "$file was changed"
+                  done
+
+            - name: '🔄 Cache node_modules'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: '🔧 Setup NodeJS'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: '📦 Install dependencies'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: npm install
+
+            # Test Step
+            - name: 'Lint ${{ matrix.project }}'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: npm run test --workspace ${{ matrix.project }}
+
+    build:
+        name: CI - Build - ${{ matrix.project }}
+        needs: [lint, test]
+        runs-on: ubuntu-latest
+        environment:
+            name: 'Build'
+        strategy:
+            matrix:
+                project: ['ui-website-boilerplate', 'ui-app-boilerplate']
+        steps:
+            # Common Steps
+            - name: '📥 checkout repository'
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+
+            - name: '🔍 Verify changed files for the project'
+              uses: tj-actions/changed-files@v23.1
+              id: changed-files # Using a fixed ID
+              with:
+                  files: |
+                      **/${{ matrix.project }}/*
+
+            - name: List all changed files
+              run: |
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                      echo "$file was changed"
+                  done
+
+            - name: '🔄 Cache node_modules'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: '🔧 Setup NodeJS'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: '📦 Install dependencies'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: npm install
+
+            # Build Step
+            - name: 'Build ${{ matrix.project }}'
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: npm run build --workspace ${{ matrix.project }}
