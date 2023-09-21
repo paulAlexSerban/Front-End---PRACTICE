@@ -1,17 +1,17 @@
 {
-  "name": "ui-app-boilerplate",
-  "version": "0.0.2",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo 'test scripts not defined'",
-    "preversion": "bash scripts/preversion.bash",
-    "postversion": "bash scripts/postversion.bash"
-  },
-  "keywords": [],
-  "author": "Paul Serban",
-  "license": "ISC",
-  "dependencies": {
-    "webpack": "^5.88.2"
-  }
+    "name": "ui-app-boilerplate",
+    "version": "0.0.2",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo 'test scripts not defined'",
+        "preversion": "bash scripts/preversion.bash",
+        "postversion": "bash scripts/postversion.bash"
+    },
+    "keywords": [],
+    "author": "Paul Serban",
+    "license": "ISC",
+    "dependencies": {
+        "webpack": "^5.88.2"
+    }
 }

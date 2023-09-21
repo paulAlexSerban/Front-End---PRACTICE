@@ -1,36 +1,43 @@
 {
-  "name": "prj--fe-ci-build-system",
-  "version": "0.0.1",
-  "workspaces": [
-    "frontend/*"
-  ],
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo 'no test'",
-    "prepare": "husky install"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^11.0.0",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^9.0.6",
-    "@semantic-release/npm": "^11.0.0",
-    "@semantic-release/release-notes-generator": "^12.0.0",
-    "semantic-release": "^22.0.0"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+    "name": "prj--fe-ci-build-system",
+    "version": "0.0.1",
+    "workspaces": [
+        "frontend/*"
+    ],
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo 'no test'",
+        "prepare": "husky install",
+        "formats:check": "npx prettier --check .",
+        "formats:write": "npx prettier --write ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@semantic-release/changelog": "^6.0.3",
+        "@semantic-release/commit-analyzer": "^11.0.0",
+        "@semantic-release/git": "^10.0.1",
+        "@semantic-release/github": "^9.0.6",
+        "@semantic-release/npm": "^11.0.0",
+        "@semantic-release/release-notes-generator": "^12.0.0",
+        "semantic-release": "^22.0.0"
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.7.1",
+        "@commitlint/config-conventional": "^17.7.0",
+        "cz-conventional-changelog": "^3.3.0",
+        "husky": "^8.0.0",
+        "prettier": "^3.0.3"
+    },
+    "engines": {
+        "node": ">=18.17.0",
+        "npm": ">=9.6.0"
     }
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^17.7.1",
-    "@commitlint/config-conventional": "^17.7.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "husky": "^8.0.0"
-  }
 }
