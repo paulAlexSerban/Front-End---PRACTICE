@@ -1,12 +1,12 @@
 {
   "name": "ui-website-boilerplate",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo 'test scripts not defined'",
-    "preversion": "git config --global push.followTags false",
-    "postversion": "git tag -d v$(node -p -e \"require('./package.json').version\") && git tag ui-website-boilerplate-$(node -p -e \"require('./package.json').version\") && git push origin ui-website-boilerplate-$(node -p -e \"require('./package.json').version\")"
+    "preversion": "bash scripts/preversion.bash",
+    "postversion": "bash scripts/postversion.bash"
   },
   "keywords": [],
   "author": "Paul Serban",
