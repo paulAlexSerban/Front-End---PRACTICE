@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo 'test scripts not defined'",
+        "lint": "eslint --ext .js,.jsx source",
         "preversion": "bash scripts/preversion.bash",
         "postversion": "bash scripts/postversion.bash",
         "watch": "export NODE_ENV=development && webpack serve --config build/webpack.dev.js --hot --progress",
