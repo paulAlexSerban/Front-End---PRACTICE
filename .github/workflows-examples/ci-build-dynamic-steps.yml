@@ -1,0 +1,45 @@
+name: Continuous Integration
+
+on:
+    push:
+        branches: ['develop', 'release', 'main']
+    workflow_dispatch:
+
+env:
+    NODE_VERSION: 18.17.1
+    SITE_URL: https://paulalexserban.github.io/prj--fe-ci-build-system
+
+jobs:
+    setup_and_run:
+        name: CI - ${{ matrix.operation }} - ${{ matrix.project }}
+        runs-on: ubuntu-latest
+        environment:
+            name: 'Build'
+        strategy:
+            matrix:
+                operation: ['lint', 'test', 'build']
+                project: ['ui-website-boilerplate', 'ui-app-boilerplate']
+        steps:
+            # Common Steps
+            - name: '📥 checkout repository'
+              uses: actions/checkout@v3
+
+            - name: '🔄 Cache node_modules'
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: '🔧 Setup NodeJS'
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: '📦 Install dependencies'
+              run: npm install
+
+            # Dynamic Steps
+            - name: '${{ matrix.operation }} ${{ matrix.project }}'
+              run: npm run ${{ matrix.operation }} --workspace ${{ matrix.project }}
