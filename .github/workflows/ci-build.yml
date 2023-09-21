@@ -39,7 +39,7 @@ jobs:
                   done
 
             - name: '🔄 Cache node_modules'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               uses: actions/cache@v2
               with:
                   path: ~/.npm
@@ -48,18 +48,18 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: '🔧 Setup NodeJS'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ env.NODE_VERSION }}
 
             - name: '📦 Install dependencies'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               run: npm install
 
             # Lint Step
             - name: 'Lint ${{ matrix.project }}'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               run: npm run lint --workspace ${{ matrix.project }}
 
     test:
@@ -92,7 +92,7 @@ jobs:
                   done
 
             - name: '🔄 Cache node_modules'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               uses: actions/cache@v2
               with:
                   path: ~/.npm
@@ -101,18 +101,18 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: '🔧 Setup NodeJS'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ env.NODE_VERSION }}
 
             - name: '📦 Install dependencies'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               run: npm install
 
             # Test Step
             - name: 'Lint ${{ matrix.project }}'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               run: npm run test --workspace ${{ matrix.project }}
 
     build:
@@ -145,7 +145,7 @@ jobs:
                   done
 
             - name: '🔄 Cache node_modules'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               uses: actions/cache@v2
               with:
                   path: ~/.npm
@@ -154,16 +154,16 @@ jobs:
                       ${{ runner.os }}-node-
 
             - name: '🔧 Setup NodeJS'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ env.NODE_VERSION }}
 
             - name: '📦 Install dependencies'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               run: npm install
 
             # Build Step
             - name: 'Build ${{ matrix.project }}'
-              if: steps.changed-files.outputs.any_changed == true
+              if: steps.changed-files.outputs.any_changed == 'true'
               run: npm run build --workspace ${{ matrix.project }}
