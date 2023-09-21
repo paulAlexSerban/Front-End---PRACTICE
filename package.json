@@ -1,6 +1,6 @@
 {
     "name": "prj--fe-ci-build-system",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "workspaces": [
         "frontend/*"
     ],
