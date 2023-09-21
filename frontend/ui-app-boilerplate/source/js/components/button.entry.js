@@ -1,2 +1,2 @@
 /* eslint-disable */
-console.log('button test');
+console.log('button');

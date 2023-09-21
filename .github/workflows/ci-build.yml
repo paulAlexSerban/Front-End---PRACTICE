@@ -36,7 +36,7 @@ jobs:
               run: |
                   for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
                       echo "$file was changed"
-                  doneƒ
+                  done
 
             - name: '🔄 Cache node_modules'
               if: steps.changed-files.outputs.any_changed == true
@@ -89,7 +89,7 @@ jobs:
               run: |
                   for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
                       echo "$file was changed"
-                  doneƒ
+                  done
 
             - name: '🔄 Cache node_modules'
               if: steps.changed-files.outputs.any_changed == true
