@@ -17,7 +17,7 @@ jobs:
             name: 'Build'
         strategy:
             matrix:
-                operation: ['Lint', 'Test', 'Build']
+                operation: ['lint', 'test', 'build']
                 project: ['ui-website-boilerplate', 'ui-app-boilerplate']
         steps:
             # Common Steps
