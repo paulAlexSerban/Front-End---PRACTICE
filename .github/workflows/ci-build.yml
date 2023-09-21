@@ -1,126 +1,60 @@
----
 name: Continuous Integration
-on:
-    push:
-        branches: ['develop', 'release', 'main']
 
-    # Allows you to run this workflow manually from the Actions tab
-    workflow_dispatch:
+on:
+  push:
+    branches: ['develop', 'release', 'main']
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: 18.17.1
+  SITE_URL: https://paulalexserban.github.io/prj--fe-ci-build-system
 
 jobs:
-    lint:
-        name: 'Continuous Integration - Lint'
-        runs-on: ubuntu-latest
-        environment:
-            name: 'Build'
-        env:
-            NODE_VERSION: 18.17.1
-            SITE_URL: https://paulalexserban.github.io/prj--fe-ci-build-system
-        steps:
-            - name: '📥 checkout repository'
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
+  setup_job:
+    runs-on: ubuntu-latest
+    environment: 
+      name: 'Build'
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: '📥 checkout repository'
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-            - name: '🔄  Cache node_modules'
-              uses: actions/cache@v2
-              with:
-                  path: |
-                      ~/.npm
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
+      - name: '🔄  Cache node_modules'
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
-            - name: '🔧 Setup NodeJS ${{ env.NODE_VERSION }}'
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
+      - name: '🔧 Setup NodeJS ${{ env.NODE_VERSION }}'
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
-            - name: '📦  Install CI dependencies'
-              run: npm install
-
-            # @TODO: should check which sub project has changed and only then run the lint required
-
-            - name: '🧹 Lint frontend/ui-website-boilerplate'
-              run: npm run lint --workspace ui-website-boilerplate
-
-            - name: '🧹 Lint frontend/ui-app-boilerplate'
-              run: npm run lint --workspace ui-app-boilerplate
-
-    test:
-        name: 'Continuous Integration - Test'
-        runs-on: ubuntu-latest
-        environment:
-            name: 'Build'
-        env:
-            NODE_VERSION: 18.17.1
-            SITE_URL: https://paulalexserban.github.io/prj--fe-ci-build-system
-        steps:
-            - name: '📥 checkout repository'
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-
-            - name: '🔄  Cache node_modules'
-              uses: actions/cache@v2
-              with:
-                  path: |
-                      ~/.npm
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
-
-            - name: '🔧 Setup NodeJS ${{ env.NODE_VERSION }}'
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
-
-            - name: '📦  Install CI dependencies'
-              run: npm install
-
-            # @TODO: should check which sub project has changed and only then run the tests required
-
-            - name: '🧪 Test frontend/ui-website-boilerplate'
-              run: npm run test --workspace ui-website-boilerplate
-
-            - name: '🧪 Test frontend/ui-app-boilerplate'
-              run: npm run test --workspace ui-app-boilerplate
-
-    build:
-        name: 'Continuous Integration - Build'
-        runs-on: ubuntu-latest
-        environment:
-            name: 'Build'
-        env:
-            NODE_VERSION: 18.17.1
-            SITE_URL: https://paulalexserban.github.io/prj--fe-ci-build-system
-        steps:
-            - name: '📥 checkout repository'
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 0
-
-            - name: '🔄  Cache node_modules'
-              uses: actions/cache@v2
-              with:
-                  path: |
-                      ~/.npm
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
-
-            - name: '🔧 Setup NodeJS ${{ env.NODE_VERSION }}'
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ env.NODE_VERSION }}
-
-            - name: '📦  Install CI dependencies'
-              run: npm install
-
-            # @TODO: should check which sub project has changed and only then run the build required
-
-            - name: '🚀 Build frontend/ui-website-boilerplate'
-              run: npm run build --workspace ui-website-boilerplate
-
-            - name: '🚀 Build frontend/ui-app-boilerplate'
-              run: npm run build --workspace ui-app-boilerplate
+      - name: '📦  Install CI dependencies'
+        run: npm install
+      
+      - name: Set matrix for next job
+        id: set-matrix
+        run: |
+          echo "::set-output name=matrix::{\"include\": [{\"project\": \"ui-website-boilerplate\"},{\"project\": \"ui-app-boilerplate\"}]}"
+  
+  operate:
+    needs: setup_job
+    runs-on: ubuntu-latest
+    environment:
+      name: 'Build'
+    strategy:
+      matrix: ${{fromJson(needs.setup_job.outputs.matrix)}}
+    steps:
+      # @TODO: should check which sub project has changed and only then run the required operation
+      - name: '🧹 Lint ${{ matrix.project }}'
+        run: npm run lint --workspace ${{ matrix.project }}
+      - name: '🧪 Test ${{ matrix.project }}'
+        run: npm run test --workspace ${{ matrix.project }}
+      - name: '🚀 Build ${{ matrix.project }}'
+        run: npm run build --workspace ${{ matrix.project }}
