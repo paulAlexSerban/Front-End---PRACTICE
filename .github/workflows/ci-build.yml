@@ -10,14 +10,13 @@ env:
     SITE_URL: https://paulalexserban.github.io/prj--fe-ci-build-system
 
 jobs:
-    setup_and_run:
-        name: CI - ${{ matrix.operation }} - ${{ matrix.project }}
+    lint:
+        name: CI - Lint - ${{ matrix.project }}
         runs-on: ubuntu-latest
         environment:
             name: 'Build'
         strategy:
             matrix:
-                operation: ['lint', 'test', 'build']
                 project: ['ui-website-boilerplate', 'ui-app-boilerplate']
         steps:
             # Common Steps
@@ -40,6 +39,74 @@ jobs:
             - name: '📦 Install dependencies'
               run: npm install
 
-            # Dynamic Steps
-            - name: '${{ matrix.operation }} ${{ matrix.project }}'
-              run: npm run ${{ matrix.operation }} --workspace ${{ matrix.project }}
+            # Linting Step
+            - name: 'Lint ${{ matrix.project }}'
+              run: npm run lint --workspace ${{ matrix.project }}
+
+    test:
+        name: CI - Test - ${{ matrix.project }}
+        runs-on: ubuntu-latest
+        needs: [lint]
+        environment:
+            name: 'Build'
+        strategy:
+            matrix:
+                project: ['ui-website-boilerplate', 'ui-app-boilerplate']
+        steps:
+            # Common Steps
+            - name: '📥 checkout repository'
+              uses: actions/checkout@v3
+
+            - name: '🔄 Cache node_modules'
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: '🔧 Setup NodeJS'
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: '📦 Install dependencies'
+              run: npm install
+
+            # Linting Step
+            - name: 'Lint ${{ matrix.project }}'
+              run: npm run test --workspace ${{ matrix.project }}
+
+    build:
+        name: Build - ${{ matrix.project }}
+        needs: [lint, test]
+        runs-on: ubuntu-latest
+        environment:
+            name: 'Build'
+        strategy:
+            matrix:
+                project: ['ui-website-boilerplate', 'ui-app-boilerplate']
+        steps:
+            # Common Steps
+            - name: '📥 checkout repository'
+              uses: actions/checkout@v3
+
+            - name: '🔄 Cache node_modules'
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-node-
+
+            - name: '🔧 Setup NodeJS'
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: '📦 Install dependencies'
+              run: npm install
+
+            # Build Step
+            - name: 'Build ${{ matrix.project }}'
+              run: npm run build --workspace ${{ matrix.project }}
