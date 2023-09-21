@@ -13,6 +13,9 @@ const sassLoader = require('./loaders/sass');
 const textLoader = require('./loaders/text');
 const imageLoader = require('./loaders/image');
 
+const { entries } = require('./utils');
+console.dir({ entries: entries() });
+
 if (process.env.NODE_ENV === 'development') {
     dotenv.config('../.env');
 }
@@ -24,12 +27,7 @@ console.dir({
 
 // export webpack configuration
 module.exports = {
-    entry: {
-        index: [
-            path.join(config.SRC_DIR, 'js', 'pages', 'index.js'),
-            path.join(config.SRC_DIR, 'scss', 'pages', 'index.scss'),
-        ],
-    },
+    entry: entries(),
     output: {
         filename: 'scripts/[name].js',
         path: config.DIST_DIR,
