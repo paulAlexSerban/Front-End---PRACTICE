@@ -25,11 +25,13 @@ jobs:
               with:
                   fetch-depth: 0
 
+            - name: Set project output
+              id: project-output
+              run: echo "::set-output name=project::${{ matrix.project }}"
+
             - name: Set dynamic step ID
               id: set-step-id
-              env:
-                  MATRIX_PROJECT: ${{ matrix.project }}
-              run: echo "::set-output name=step_id::changed-$MATRIX_PROJECT"
+              run: echo "::set-output name=step_id::changed-${{ steps.project-output.outputs.project }}"
 
             - name: '🔍  Verify changed ${{ matrix.project }}'
               uses: tj-actions/changed-files@v23.1
@@ -84,11 +86,13 @@ jobs:
               with:
                   fetch-depth: 0
 
+            - name: Set project output
+              id: project-output
+              run: echo "::set-output name=project::${{ matrix.project }}"
+
             - name: Set dynamic step ID
               id: set-step-id
-              env:
-                  MATRIX_PROJECT: ${{ matrix.project }}
-              run: echo "::set-output name=step_id::changed-$MATRIX_PROJECT"
+              run: echo "::set-output name=step_id::changed-${{ steps.project-output.outputs.project }}"
 
             - name: '🔍  Verify changed ${{ matrix.project }}'
               uses: tj-actions/changed-files@v23.1
@@ -143,11 +147,13 @@ jobs:
               with:
                   fetch-depth: 0
 
+            - name: Set project output
+              id: project-output
+              run: echo "::set-output name=project::${{ matrix.project }}"
+
             - name: Set dynamic step ID
               id: set-step-id
-              env:
-                  MATRIX_PROJECT: ${{ matrix.project }}
-              run: echo "::set-output name=step_id::changed-$MATRIX_PROJECT"
+              run: echo "::set-output name=step_id::changed-${{ steps.project-output.outputs.project }}"
 
             - name: '🔍  Verify changed ${{ matrix.project }}'
               uses: tj-actions/changed-files@v23.1
