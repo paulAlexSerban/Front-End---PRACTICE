@@ -29,21 +29,17 @@ jobs:
               id: project-output
               run: echo "::set-output name=project::${{ matrix.project }}"
 
-            - name: Set dynamic step ID
-              id: set-step-id
-              run: echo "::set-output name=step_id::changed-${{ steps.project-output.outputs.project }}"
-
-            - name: '🔍  Verify changed ${{ steps.project-output.outputs.project }}'
+            - name: '🔍 Verify changed files for the project'
               uses: tj-actions/changed-files@v23.1
-              id: changed-${{ steps.project-output.outputs.project }}
+              id: changed-files # Using a fixed ID
               with:
                   files: |
                       **/${{ steps.project-output.outputs.project }}/*
 
             - name: List all changed files
               run: |
-                  for file in ${{ steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files }}; do
-                    echo "$file was changed"
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                      echo "$file was changed"
                   done
 
             - name: '🔄 Cache node_modules'
@@ -90,21 +86,17 @@ jobs:
               id: project-output
               run: echo "::set-output name=project::${{ matrix.project }}"
 
-            - name: Set dynamic step ID
-              id: set-step-id
-              run: echo "::set-output name=step_id::changed-${{ steps.project-output.outputs.project }}"
-
-            - name: '🔍  Verify changed ${{ steps.project-output.outputs.project }}'
+            - name: '🔍 Verify changed files for the project'
               uses: tj-actions/changed-files@v23.1
-              id: changed-${{ steps.project-output.outputs.project }}
+              id: changed-files # Using a fixed ID
               with:
                   files: |
                       **/${{ steps.project-output.outputs.project }}/*
 
             - name: List all changed files
               run: |
-                  for file in ${{ steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files }}; do
-                    echo "$file was changed"
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                      echo "$file was changed"
                   done
 
             - name: '🔄 Cache node_modules'
@@ -151,21 +143,17 @@ jobs:
               id: project-output
               run: echo "::set-output name=project::${{ matrix.project }}"
 
-            - name: Set dynamic step ID
-              id: set-step-id
-              run: echo "::set-output name=step_id::changed-${{ steps.project-output.outputs.project }}"
-
-            - name: '🔍  Verify changed ${{ steps.project-output.outputs.project }}'
+            - name: '🔍 Verify changed files for the project'
               uses: tj-actions/changed-files@v23.1
-              id: changed-${{ steps.project-output.outputs.project }}
+              id: changed-files # Using a fixed ID
               with:
                   files: |
                       **/${{ steps.project-output.outputs.project }}/*
 
             - name: List all changed files
               run: |
-                  for file in ${{ steps[steps.set-step-id.outputs.step_id].outputs.all_changed_files }}; do
-                    echo "$file was changed"
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                      echo "$file was changed"
                   done
 
             - name: '🔄 Cache node_modules'
