@@ -1,7 +1,9 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run formats:check & npm run lint --workspaces & npm run test --workspaces
+npm run formats:check 
+npm run lint --workspaces 
+npm run test --workspaces
 
 # verifi which files have been changed and then run commands on them
 # Eg.git diff --cached --name-only --diff-filter=ACM | grep '\.js$' | xargs -I % sh -c 'prettier --write % && git add %'
