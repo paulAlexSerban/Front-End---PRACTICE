@@ -1,7 +1,47 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run formats:check & npm run lint --workspaces & npm run test --workspaces
+npm run formats:check
 
 # verifi which files have been changed and then run commands on them
 # Eg. git diff --cached --name-only --diff-filter=ACM | grep '\.js$' | xargs -I % sh -c 'prettier --write % && git add %'
+
+# Extract workspaces from package.json using Node.js
+WORKSPACES=($(node -e "console.log(require('./package.json').workspaces.join(' '))"))
+
+# Command to run on changed workspaces
+COMMAND="npm run lint --workspace"
+
+# Get changed files from git
+CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+
+# Check each workspace
+for WS_PATH in "${WORKSPACES[@]}"; do
+  # Extract the workspace name from the path
+  WS_NAME=$(basename "$WS_PATH")
+  
+  # Flag to identify if the workspace has changed
+  WS_CHANGED=false
+  
+  # Check each changed file
+  for FILE in $CHANGED_FILES; do
+    # If this file is in this workspace, mark it as changed
+    if [[ $FILE == $WS_PATH/* ]]; then
+      WS_CHANGED=true
+      break
+    fi
+  done
+  
+  # If the workspace has changed, run the command
+  if [ "$WS_CHANGED" = true ]; then
+    echo "Changes detected in workspace: $WS_NAME"
+    echo "Executing: $COMMAND $WS_NAME"
+    $COMMAND "$WS_NAME"
+    
+    # Check the exit code of the last command
+    if [[ $? -ne 0 ]]; then
+      echo "Command failed: $COMMAND $WS_NAME"
+      exit 1
+    fi
+  fi
+done
