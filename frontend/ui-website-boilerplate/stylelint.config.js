@@ -1,6 +1,6 @@
 module.exports = {
     plugins: ['stylelint-scss'],
-    extends: [ 'stylelint-config-recommended-scss'],
+    extends: ['stylelint-config-recommended-scss'],
     rules: {
         'color-function-notation': null,
         'at-rule-empty-line-before': null,

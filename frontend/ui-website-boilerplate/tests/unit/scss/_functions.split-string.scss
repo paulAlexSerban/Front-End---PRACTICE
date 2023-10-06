@@ -2,6 +2,6 @@
 
 @include describe('string-split()') {
     @include it('should return input string split using delimiter ","') {
-        @include assert-equal(string-split('apples,bananas,oranges', ','), ('apples'  'bananas' 'oranges'));
+        @include assert-equal(string-split('apples,bananas,oranges', ','), ('apples' 'bananas' 'oranges'));
     }
 }
