@@ -1,2 +1,3 @@
-/* eslint-disable no-console */
-console.log('test');
+import { sum } from '../utils/sum';
+
+const result = sum(1, 2);

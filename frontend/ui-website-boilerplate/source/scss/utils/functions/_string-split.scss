@@ -1,0 +1,16 @@
+@use "sass:string";
+
+@function string-split($string, $delimiter) {
+    $result: ();
+
+    $index: string.index($string, $delimiter);
+    @while $index != null {
+        $substring: string.slice($string, 1, $index - 1);
+        $result: append($result, $substring);
+        $string: string.slice($string, $index + string.length($delimiter));
+        $index: string.index($string, $delimiter);
+    }
+
+    $result: append($result, $string);
+    @return $result;
+}
